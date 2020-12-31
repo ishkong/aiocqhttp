@@ -142,9 +142,9 @@ class WebSocketReverseApi(AsyncApi):
         if params.get('self_id'):
             # 明确指定
             api_ws = self._clients.get(str(params['self_id']))
-        elif event_ws and event_ws.headers['X-Self-ID'] in self._clients:
+        elif event_ws and event_ws in self._clients.values():
             # 没有指定，但在事件处理函数中
-            api_ws = self._clients.get(event_ws.headers['X-Self-ID'])
+            api_ws = event_ws
         elif len(self._clients) == 1:
             # 没有指定，不在事件处理函数中，但只有一个连接
             api_ws = tuple(self._clients.values())[0]
